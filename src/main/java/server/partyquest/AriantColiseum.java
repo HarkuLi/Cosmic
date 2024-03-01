@@ -220,7 +220,7 @@ public class AriantColiseum {
         double matchRes = runnerupsScoreCount / winnerScore;
         double runnerupRes = ((double) secondScore) / winnerScore;
 
-        return matchRes < 0.81770726891980117713114871015349 && (runnerupsScoreCount < 7 || runnerupRes < 0.5929);
+        return matchRes < 0.81770726891980117713114871015349 && (runnerupsScoreCount < 5 || runnerupRes < 0.5929);
     }
 
     public void distributeAriantPoints() {
@@ -239,7 +239,7 @@ public class AriantColiseum {
             }
 
             runnerups.add(s);
-            rewardTier.put(e.getKey(), (int) Math.floor(s / 10));
+            rewardTier.put(e.getKey(), (int) Math.floor(s / 5));
         }
 
         runnerups.remove(firstTop);
