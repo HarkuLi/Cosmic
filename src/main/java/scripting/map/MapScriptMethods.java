@@ -138,24 +138,46 @@ public class MapScriptMethods extends AbstractPlayerInteraction {
         showInfoText(smp.toString());
     }
 
-    public void touchTheSky() { //29004
-        Quest quest = Quest.getInstance(29004);
-        if (!isQuestStarted(29004)) {
+    public void touchTheSky() {
+        int questId = 29004;
+        if (isQuestCompleted(questId)) {
+            return;
+        }
+
+        Quest quest = Quest.getInstance(questId);
+        if (!isQuestStarted(questId)) {
             if (!quest.forceStart(getPlayer(), 9000066)) {
                 return;
             }
         }
+
         QuestStatus qs = getPlayer().getQuest(quest);
+
+        int goalProgress = Integer.valueOf(qs.getInfoEx(0));
+        int medalId = 1142111;
+
+        if (qs.getMedalProgress() + 1 == goalProgress && !getPlayer().canHold(medalId)) {
+            showInfoText(
+                "You will be awarded the \"The One Who's Touched the Sky\" title after stepping on this place, but your inventory is full."
+                + " Please clean your inventory and try again later."
+            );
+            return;
+        }
+
         if (!qs.addMedalMap(getPlayer().getMapId())) {
             return;
         }
+
         String status = Integer.toString(qs.getMedalProgress());
         getPlayer().announceUpdateQuest(DelayedQuestUpdate.UPDATE, qs, true);
         getPlayer().sendPacket(PacketCreator.earnTitleMessage(status + "/5 Completed"));
         getPlayer().sendPacket(PacketCreator.earnTitleMessage("The One Who's Touched the Sky title in progress."));
-        if (Integer.toString(qs.getMedalProgress()).equals(qs.getInfoEx(0))) {
-            showInfoText("The One Who's Touched the Sky" + rewardstring);
+
+        if (qs.getMedalProgress() == goalProgress) {
             getPlayer().sendPacket(PacketCreator.getShowQuestCompletion(quest.getId()));
+            gainItem(medalId);
+            forceCompleteQuest(questId);
+            showInfoText("The One Who's Touched the Sky title has been rewarded. Besides, the quest has been auto-completed.");
         } else {
             showInfoText("The One Who's Touched the Sky title in progress. " + status + "/5 Completed");
         }
