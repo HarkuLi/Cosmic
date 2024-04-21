@@ -65,8 +65,14 @@ function action(mode, type, selection) {
                 cm.sendOk("Your Party Search status is now: #b" + (psState ? "enabled" : "disabled") + "#k. Talk to me whenever you want to change it back.");
                 cm.dispose();
             } else {
-                cm.sendOk("#e#b<Party Quest: Dimensional Schism>#k#n\r\nA Dimensional Schism has appeared in #b#m220000000#!#k We desperately need brave adventurers who can defeat the intruding monsters. Please, party with some dependable allies to save #m220000000#! You must pass through various stages by defeating monsters and solving quizzes, and ultimately defeat #r#o9300012##k.");
-                cm.dispose();
+                if (cm.haveItem(1022073)) {
+                    cm.sendOk("#e#b<Party Quest: Dimensional Schism>#k#n\r\nA Dimensional Schism has appeared in #b#m220000000#!#k We desperately need brave adventurers who can defeat the intruding monsters. Please, party with some dependable allies to save #m220000000#! You must pass through various stages by defeating monsters and solving quizzes, and ultimately defeat #r#o9300012##k.");
+                    cm.dispose();
+                } else {
+                    cm.sendNext("It seems you don't have Broken Glasses. Give you a pair as my greeting. Have a nice day!");
+                    cm.gainItem(1022073);
+                    cm.dispose();
+                }
             }
         }
     }
