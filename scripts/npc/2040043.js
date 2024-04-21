@@ -145,6 +145,15 @@ function action(mode, type, selection) {
                             clearStage(stage, eim, curMap);
                             cm.dispose();
                         } else {
+                            var answer = combo.reduce((rst, picked, idx) => {
+                                if (picked === "1") {
+                                    rst += `${idx + 1} `;
+                                }
+
+                                return rst;
+                            }, "").trimEnd();
+                            cm.getPlayer().dropMessage("The correct answer is: " + answer + ".");
+
                             eim.showWrongEffect();
                             cm.dispose();
                         }
