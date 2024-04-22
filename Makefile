@@ -24,4 +24,4 @@ db.reset_owner:
 
 .PHONY: db.backup
 db.backup: db.reset_owner
-	zip -r "backups/cosmic_db_$(shell date +%Y%m%d%H%M%S).zip" ./database/docker-db-data
+	cd database && tar zcvf "../backups/cosmic_db_$(shell date +%Y%m%d%H%M%S).tar.gz" ./docker-db-data
