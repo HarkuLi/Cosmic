@@ -3,7 +3,8 @@ services:
   maplestory:
     build: .
     depends_on:
-      - db
+      db-migration:
+        condition: service_completed_successfully
     ports:
       # Login server
       - "8484:8484"
@@ -19,7 +20,25 @@ services:
       - ./wz:/opt/server/wz
     environment:
       DB_HOST: "db" ## Remember if this is present it will OVERRIDE the host in the config.yaml, if you put here anything other than db, you'll need to change the config.yaml jdbc string to port 3307, and not port 3306
-    
+
+  db-migration:
+    image: redgate/flyway:10.11-alpine
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      HOST: "db"
+      DATABASE: "cosmic"
+      USER: "cosmic_server"
+      PASSWORD: "snailshell"
+      # Set this value as `true` for first-time setup.
+      # If you have an existing database, DO NOT enable this option and you should ensure your table schemas is consistent with `V1__baseline_migration.sql`.
+      CLEAN_SETUP: false
+    volumes:
+      - ./docker/db-migration/entrypoint:/flyway/entrypoint
+      - ./docker/db-migration/migration:/flyway/migration
+    entrypoint: /flyway/entrypoint
+
   db:
     image: mysql:8.0.23
     healthcheck:
@@ -40,4 +59,5 @@ services:
       - "3307:3306"
     volumes:
       - ./database/docker-db-data:/var/lib/mysql
-      - ./database/sql:/docker-entrypoint-initdb.d
+    command:
+      - --default-authentication-plugin=mysql_native_password

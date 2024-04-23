@@ -1,0 +1,16 @@
+#!/bin/sh
+
+readonly CONNECTION_OPTIONS="-url=jdbc:mysql://${HOST}/${DATABASE} \
+-user=${USER} \
+-password=${PASSWORD}"
+
+if [[ "${CLEAN_SETUP}" == "true" ]]; then
+  flyway ${CONNECTION_OPTIONS} -cleanDisabled="false" clean
+else
+  flyway ${CONNECTION_OPTIONS} \
+    -baselineVersion="1" \
+    -baselineDescription="baseline_migration" \
+    baseline
+fi
+
+flyway ${CONNECTION_OPTIONS} -locations="filesystem:./migration" migrate
