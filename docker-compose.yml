@@ -22,6 +22,15 @@ services:
     
   db:
     image: mysql:8.0.23
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - -u$$MYSQL_USER
+        - -p$$MYSQL_PASSWORD
+      timeout: 10s
+      retries: 10
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "true"
       MYSQL_DATABASE: "cosmic"
