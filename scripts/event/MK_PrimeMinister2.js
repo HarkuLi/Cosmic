@@ -54,7 +54,7 @@ function primeMinisterCheck(eim) {
 
 function respawn(eim) {
     if (primeMinisterCheck(eim)) {
-        eim.startEventTimer(eventTime);
+        // eim.startEventTimer(eventTime);
 
         var weddinghall = eim.getMapInstance(entryMap);
         weddinghall.getPortal(1).setPortalState(false);
@@ -152,10 +152,11 @@ function clearPQ(eim) {
 
 function monsterKilled(mob, eim) {
     if (mob.getId() == mobId) {
-        eim.getMapInstance(entryMap).getPortal(1).setPortalState(true);
+        // eim.getMapInstance(entryMap).getPortal(1).setPortalState(true);
 
-        eim.showClearEffect();
-        eim.clearPQ();
+        // eim.showClearEffect();
+        // eim.clearPQ();
+        respawn(eim)
     }
 }
 
