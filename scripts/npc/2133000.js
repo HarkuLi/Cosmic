@@ -100,13 +100,13 @@ function action(mode, type, selection) {
                     cm.dispose();
                 }
             } else if (selection == 1) {
-                if (cm.haveItem(1032060) && !cm.haveItem(1032061) && cm.haveItem(4001198, 10)) {
-                    cm.gainItem(1032060, -1);
+                if (!cm.haveItem(1032061) && cm.haveItem(4001198)) {
+                    cm.sendOk("You have worked hard enough and you deserve this pair of Glittering Altair Earrings.");
                     cm.gainItem(1032061, 1);
-                    cm.gainItem(4001198, -10);
+                    cm.gainItem(4001198, -1);
                     cm.dispose();
                 } else {
-                    cm.sendOk("You either don't have Altair Earrings already or you do not have 10 Altair Fragments.");
+                    cm.sendOk("You either have Glittering Altair Earrings already or you do not have an Altair Fragment.");
                     cm.dispose();
                 }
             } else if (selection == 2) {
