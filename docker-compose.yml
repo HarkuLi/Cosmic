@@ -30,5 +30,22 @@ services:
     volumes:
       - db-data:/var/lib/mysql
 
+  db-backup:
+    image: percona/percona-xtrabackup:8.4
+    init: true
+    depends_on:
+      - db
+    volumes:
+      - ./docker/db-backup/scripts:/scripts
+      - db-data:/var/lib/mysql:ro
+      - ./database/backups:/backup
+    user: root
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD:
+    command:
+      - /scripts/auto_backup
+
 volumes:
   db-data:
