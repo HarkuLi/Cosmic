@@ -63,6 +63,14 @@ To start all services, run:
 docker compose up -d
 ```
 
+It starts the following services:
+
+*   **maplestory**: The main part of Cosmic server.
+*   **db**: The database for Cosmic server.
+*   **db-backup**: Database backup service.
+    *   Performs an initial database backup on startup, followed by hourly backups.
+    *   You can find the backups in [database/backups](./database/backup).
+
 Then you can use
 
 ```bash
@@ -81,6 +89,14 @@ Once the server is ready, you will see a message like:
 
 ```bash
 docker compose down
+```
+
+### Restore database
+
+To restore the database using a backup, run:
+
+```bash
+./tools/restore_db <path_to_backup>
 ```
 
 ### Rebuild
