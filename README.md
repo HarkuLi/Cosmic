@@ -69,6 +69,7 @@ It starts the following services:
 *   **db**: The database for Cosmic server.
 *   **db-backup**: Database backup service.
     *   Performs an initial database backup on startup, followed by hourly backups.
+    *   Backups older than 7 days are removed automatically.
     *   You can find the backups in [database/backups](./database/backup).
 
 Then you can use
