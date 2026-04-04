@@ -4,7 +4,7 @@
 #
 # Cosmic JAR creation stage
 #
-FROM maven:3.9.6-amazoncorretto-21 AS jar
+FROM maven:3.9.14-amazoncorretto-21-al2023 AS jar
 
 # Build in a separated location which won't have permissions issues.
 WORKDIR /opt/cosmic
