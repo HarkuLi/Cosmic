@@ -1,9 +1,9 @@
-version: '3'
 services:
   maplestory:
     build: .
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       # Login server
       - "8484:8484"
@@ -29,4 +29,30 @@ services:
     ports:
       - "${DB_PORT}:3306"
     volumes:
-      - ./database/docker-db-data:/var/lib/mysql
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping"]
+      timeout: 5s
+      interval: 5s
+      retries: 3
+
+  db-backup:
+    image: percona/percona-xtrabackup:8.4
+    init: true
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./docker/db-backup/scripts:/scripts
+      - db-data:/var/lib/mysql:ro
+      - ./database/backups:/backup
+    user: root
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD:
+    command:
+      - /scripts/auto_backup
+
+volumes:
+  db-data:
