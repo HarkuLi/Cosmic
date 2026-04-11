@@ -55,6 +55,20 @@ The project follows the [semantic versioning](https://semver.org/) scheme using 
 1.  [Docker](https://www.docker.com)
 2.  [Docker Compose](https://docs.docker.com/compose/install)
 
+### Set up environment variables
+
+Create `.env` file by copying the `.env.example` file:
+
+```
+cp .env.example .env
+```
+
+Then, check and edit the `.env` file if necessary.
+
+> Note: Though `.env.example` already contains default settings that make
+> Cosmic work, it is recommended to set settings like `DB_PASS` with reasonable
+> values.
+
 ### Start services
 
 To start all services, run:
@@ -124,7 +138,7 @@ You will start by cloning the repository, then configure the database properties
 #### Steps
 
 1. Clone Cosmic into a new project. In IntelliJ, you would create a new project from version control.
-2. Open _config.yaml_. Find "DB_PASS" and set it to your database root user password.
+2. [Create `.env` file](#set-up-environment-variables) and then load it into current shell session by `. .env` command.
 3. Start the server. The main method is located in `net.server.Server`.
 4. If you see "Cosmic is now online" in the console, it means the server is online and ready to serve traffic. Yay!
 
