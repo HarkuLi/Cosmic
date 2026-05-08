@@ -87,6 +87,10 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          volumeMounts:
+            - name: config
+              subPath: config.yaml
+              mountPath: /opt/server/config.yaml
       initContainers:
         - name: mysql-isalive
           image: {{ include "mysql.image" .Subcharts.mysql }}
@@ -116,6 +120,10 @@ spec:
                   password_aux=$(cat "${MYSQL_PASSWORD_FILE}")
               fi
               mysqladmin ping -h ${DB_HOST} -P ${DB_PORT} -u"${MYSQL_USER}" -p"${password_aux}" | grep "mysqld is alive"
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "cosmic.fullname" . }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
