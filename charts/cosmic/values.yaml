@@ -81,6 +81,8 @@ affinity: {}
 tolerations: []
 
 cosmic:
+  # Contents for custom config file.
+  configuration: ""
   containerPorts:
     login: 8484
     # Channels are exclusive of "end" values.
